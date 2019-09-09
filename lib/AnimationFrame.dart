@@ -2,14 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'BaseAnimation.dart';
-import 'BaseAnimatable.dart';
 import 'ControlledAnimation.dart';
 
 class AnimationFrame extends StatefulWidget {
-  final BaseAnimatable animatableChild;
+  final Widget animatableChild;
   final List<BaseAnimation> animationList;
   final bool simultaneous;
   final Stream<Object> parentCommandStream;
+
+  static AnimationFrameState of(BuildContext context) =>
+      (context.ancestorStateOfType(const TypeMatcher<AnimationFrameState>())
+      as AnimationFrameState);
 
   const AnimationFrame(
       {Key key,
@@ -20,10 +23,10 @@ class AnimationFrame extends StatefulWidget {
       : super(key: key);
 
   @override
-  _AnimationFrameState createState() => _AnimationFrameState();
+  AnimationFrameState createState() => AnimationFrameState();
 }
 
-class _AnimationFrameState extends State<AnimationFrame>
+class AnimationFrameState extends State<AnimationFrame>
     with TickerProviderStateMixin {
   StreamSubscription childCommandSubscription;
   StreamSubscription parentCommandSubscription;
@@ -32,13 +35,6 @@ class _AnimationFrameState extends State<AnimationFrame>
   @override
   void initState() {
     super.initState();
-
-    childCommandSubscription =
-        widget.animatableChild.animationCommandStream.listen((object) {
-      setState(() {
-        executeAnimationCommand();
-      });
-    });
 
     parentCommandSubscription = widget.parentCommandStream.listen((object) {
       setState(() {
@@ -84,7 +80,6 @@ class _AnimationFrameState extends State<AnimationFrame>
   }
 
   Widget buildSequential() {
-  //  controlledAnimationList[0].controller.addStatusListener(listener)
     return Container(
       width: 20,
       height: 20,
@@ -96,7 +91,6 @@ class _AnimationFrameState extends State<AnimationFrame>
   void dispose() {
     childCommandSubscription.cancel();
     parentCommandSubscription.cancel();
-    widget.animatableChild.dispose();
     controlledAnimationList.forEach((item) => item.dispose());
     super.dispose();
   }

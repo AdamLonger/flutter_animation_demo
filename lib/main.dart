@@ -3,10 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'AnimationFrame.dart';
-import 'BaseAnimatable.dart';
-import 'BaseAnimatableWidget.dart';
 import 'ExampleAnimatable.dart';
-import 'ExampleCombinedAnimation.dart';
+import 'ExampleAnimatableButton.dart';
+import 'ExampleHTranslationAnimation.dart';
 import 'ExampleRotationAnimation.dart';
 import 'ExampleScalingAnimation.dart';
 import 'ExampleTranslationAnimation.dart';
@@ -44,11 +43,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: Center(
         child: AnimationFrame(
-          animatableChild: ExampleAnimatable(),
+          animatableChild: ExampleAnimatableButton(),
           animationList: [
             ExampleRotationAnimation(Duration(seconds: 2)),
             ExampleScalingAnimation(Duration(seconds: 1)),
-            ExampleTranslationAnimation(Duration(seconds: 4))
+            ExampleTranslationAnimation(Duration(seconds: 4)),
+            ExampleHTranslationAnimation(Duration(seconds: 4))
           ],
           simultaneous: true,
           parentCommandStream: animationCommandStream.stream,

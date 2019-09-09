@@ -1,8 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'BaseAnimatable.dart';
 
-class ExampleAnimatable extends BaseAnimatable {
+class ExampleAnimatable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
